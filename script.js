@@ -312,11 +312,15 @@ function goTo(id, kind='fade'){
 (() => {
   const pre = $('#namePre'), wrap = $('#nameWrap'), field = $('#nameField'),
         btn = $('#enterBtn'), err = $('#nameErr'), welcome = $('#welcomeLine');
-  pre.classList.add('show');
+  const bism = $('#bismillah');
+  bism.classList.add('show');
+  setTimeout(() => Sound.chime(523.25, .1), T(600));
+  setTimeout(() => bism.classList.add('small'), T(3000));
+  setTimeout(() => pre.classList.add('show'), T(3600));
   setTimeout(() => {
     pre.classList.remove('show');
     setTimeout(() => { pre.hidden = true; wrap.hidden = false; }, T(800));
-  }, T(2400));
+  }, T(6000));
 
   function enter(){
     const raw = field.value.replace(/[<>&"]/g,'').trim().replace(/\s+/g,' ');
@@ -631,7 +635,8 @@ function goTo(id, kind='fade'){
 
 /* ===== SCENE 9 · dua ===== */
 (() => {
-  const h = $('#duaH'), lines = [...$$('#duaLines p')], cue = $('#duaCue'), sc = $('#sc-dua');
+  const h = $('#duaH'), ar = $('#duaArabic'), arT = $('#duaArabicT'),
+        lines = [...$$('#duaLines p')], cue = $('#duaCue'), sc = $('#sc-dua');
   let started = false, ready = false;
   ON_ENTER['sc-dua'] = () => {
     if(started) return; started = true;
@@ -643,14 +648,22 @@ function goTo(id, kind='fade'){
       setTimeout(() => h.classList.add('show'), 40);
       Sound.chime(523.25, .1);
     }, T(800));
+    setTimeout(() => {
+      ar.hidden = false;
+      setTimeout(() => { ar.classList.add('show'); Sound.chime(659.25, .12); }, 40);
+    }, T(2000));
+    setTimeout(() => {
+      arT.hidden = false;
+      setTimeout(() => arT.classList.add('show'), 40);
+    }, T(3100));
     lines.forEach((l, i) => {
       setTimeout(() => {
         l.classList.remove('hidden');
         setTimeout(() => l.classList.add('show'), 40);
         if(i % 2 === 0) Sound.chime(523.25 + i*30, .06);
-      }, T(2000 + i*1000));
+      }, T(4200 + i*1000));
     });
-    setTimeout(() => { cue.hidden = false; cue.classList.add('show'); ready = true; }, T(2000 + lines.length*1000 + 400));
+    setTimeout(() => { cue.hidden = false; cue.classList.add('show'); ready = true; }, T(4200 + lines.length*1000 + 400));
   };
   sc.addEventListener('pointerdown', () => { if(!ready) return; goTo('sc-seed', 'fade'); });
 })();
@@ -688,8 +701,9 @@ function goTo(id, kind='fade'){
     const seq = [
       ['#fName', 600],
       ['#fHB', 2200],
-      ['#fMsg', 4200],
-      ['#fMade', 6200]
+      ['#fArabic', 3600],
+      ['#fMsg', 5400],
+      ['#fMade', 7400]
     ];
     seq.forEach(([sel, at]) => {
       setTimeout(() => {

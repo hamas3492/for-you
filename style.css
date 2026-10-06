@@ -347,3 +347,47 @@ body.moonlit{background:#060a16}
   font-size:15px;background:rgba(255,255,255,.95);
   box-shadow:0 4px 16px rgba(0,0,0,.4);animation:pandaBubble 2s ease-in-out infinite}
 @keyframes pandaBubble{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.18) rotate(4deg)}}
+
+/* ===== ISLAMIC VIBE ===== */
+.bismillah{
+  position:absolute;top:14%;left:6%;right:6%;text-align:center;
+  font-family:'Amiri',var(--serif);font-size:clamp(24px,6.6vw,42px);line-height:1.7;
+  color:var(--gold);
+  text-shadow:0 0 26px rgba(251,191,36,.35),0 0 60px rgba(251,191,36,.15);
+  opacity:0;transform:translateY(16px) scale(.96);filter:blur(10px);
+  transition:opacity 1.6s var(--ease),transform 1.6s var(--ease),filter 1.6s var(--ease),top 1.2s var(--ease),font-size 1.2s var(--ease);
+  pointer-events:none;z-index:2}
+.bismillah.show{opacity:1;transform:none;filter:none}
+.bismillah.small{top:7%;font-size:clamp(15px,4vw,24px);opacity:.9;text-shadow:0 0 16px rgba(251,191,36,.25)}
+
+.dua-arabic{
+  font-family:'Amiri',var(--serif);font-size:clamp(30px,8.4vw,52px);line-height:1.7;
+  color:var(--gold);margin:-3vh 0 1vh;
+  text-shadow:0 0 30px rgba(251,191,36,.4),0 0 80px rgba(251,191,36,.18);
+  opacity:0;transform:scale(.92);filter:blur(12px);
+  transition:opacity 1.6s var(--ease),transform 1.6s var(--ease),filter 1.6s var(--ease)}
+.dua-arabic.show{opacity:1;transform:none;filter:none}
+.dua-arabic-t{
+  font-family:var(--serif);font-style:italic;font-size:clamp(13px,3.4vw,16px);
+  color:rgba(251,191,36,.75);letter-spacing:.08em;margin-bottom:3vh;
+  opacity:0;transform:translateY(8px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.dua-arabic-t.show{opacity:1;transform:none}
+
+.f-arabic{
+  font-family:'Amiri',var(--serif);font-size:clamp(24px,6.4vw,40px);line-height:1.7;
+  color:var(--gold);margin:-3.4vh 0 5vh;
+  text-shadow:0 0 26px rgba(251,191,36,.4),0 0 70px rgba(251,191,36,.16);
+  opacity:0;transform:translateY(16px);filter:blur(8px);
+  transition:opacity 1.2s var(--ease),transform 1.2s var(--ease),filter 1.2s var(--ease)}
+.f-arabic.show-f{opacity:1;transform:none;filter:none}
+
+/* geometric star pattern — dua & final */
+#sc-dua::before,#sc-final::before{
+  content:"";position:absolute;inset:-40px;pointer-events:none;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%23a78bfa' stroke-width='1'%3E%3Cpath d='M44 12L51.6 36.4L76 44L51.6 51.6L44 76L36.4 51.6L12 44L36.4 36.4Z'/%3E%3Ccircle cx='44' cy='44' r='15'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:88px 88px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 45%,#000 30%,transparent 78%);
+  mask-image:radial-gradient(ellipse 75% 65% at 50% 45%,#000 30%,transparent 78%);
+  animation:patternDrift 60s linear infinite}
+@keyframes patternDrift{from{background-position:0 0}to{background-position:88px 176px}}
+@media (prefers-reduced-motion:reduce){#sc-dua::before,#sc-final::before{animation:none}}
