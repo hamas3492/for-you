@@ -117,6 +117,37 @@ const Sky = (() => {
     setSpeed:v=>{speed=v;}, fadeTo(v){ dimT = v; } };
 })();
 
+
+/* ================= STICKERS (TikTok/Insta style) ================= */
+const Stickers = (() => {
+  const layer = $('#stickers');
+  const POOLS = {
+    suspense: ['🐼','🤫','✨','🌙','💜','⭐'],
+    party:    ['🎂','🎉','🎈','✨','🎁','💜','🎊','⭐'],
+    cake:     ['✨','💜','🎂','🌟','🎈'],
+    dua:      ['🤲','🌙','✨','💫']
+  };
+  function spawn(emoji){
+    if(layer.children.length > 11) return;
+    const s = document.createElement('span');
+    s.className = 'sticker';
+    s.textContent = emoji;
+    s.style.setProperty('--sx', rand(8, 90) + '%');
+    s.style.setProperty('--rot', rand(-16, 16) + 'deg');
+    s.style.setProperty('--dur', rand(7, 11) + 's');
+    s.style.setProperty('--sc', rand(.8, 1.3).toFixed(2));
+    layer.appendChild(s);
+    setTimeout(() => s.remove(), 12000);
+  }
+  function rain(kind, n, gapMs){
+    const pool = POOLS[kind] || POOLS.party;
+    for(let i=0;i<n;i++){
+      setTimeout(() => spawn(pool[Math.floor(rand(0, pool.length))]), i * (gapMs || 350) + rand(0, 200));
+    }
+  }
+  return { rain };
+})();
+
 /* ================= SOUND (sfx) ================= */
 const Sound = (() => {
   let ctx = null, sfx = null, started = false;
@@ -369,6 +400,10 @@ function goTo(id, kind='fade'){
   ON_ENTER['sc-suspense'] = () => {
     if(started) return; started = true;
     l1.textContent = `${state.name}...`;
+    Stickers.rain('suspense', 7, 420);
+    const panda = $('#pandaPeek');
+    setTimeout(() => { panda.classList.add('show','wave'); Sound.pop(); }, T(900));
+    setTimeout(() => { panda.classList.remove('show','wave'); }, T(5400));
     setTimeout(() => l1.classList.add('show'), T(500));
     setTimeout(() => {
       l1.classList.remove('show');
@@ -418,6 +453,7 @@ function goTo(id, kind='fade'){
   ON_ENTER['sc-reveal'] = () => {
     if(started) return; started = true;
     document.body.classList.add('glow-up', 'festive');
+    Stickers.rain('party', 14, 260);
     setTimeout(() => {
       l1.classList.add('show');
       setTimeout(() => {
@@ -442,6 +478,7 @@ function goTo(id, kind='fade'){
   const candles = [...$$('.candle')], cake = $('#sc-cake'),
         done = $('#cakeDone'), cue = $('#cakeCue');
   let out = 0, finished = false, ready = false;
+  ON_ENTER['sc-cake'] = () => Stickers.rain('cake', 6, 700);
   candles.forEach(cnd => {
     cnd.addEventListener('pointerdown', e => {
       e.stopPropagation();
@@ -473,7 +510,7 @@ function goTo(id, kind='fade'){
     `Dear ${'@'},`,
     'aaj ka din koi normal date nahi —',
     "it's the day the world quietly got softer.",
-    'Tumhari hansi, tumhari kindness, tumhari duaayein —',
+    'Aapki hansi, aapki kindness, aapki duaayein —',
     'sab kuch bohat khaas hai.',
     'Happy Birthday ✦ You are loved more than you know.'
   ];
@@ -571,7 +608,7 @@ function goTo(id, kind='fade'){
       }, T(200));
       if(litCount === 6){
         setTimeout(() => {
-          wish.textContent = 'Yeh saari wishes sirf tumhare liye thin.';
+          wish.textContent = 'Yeh saari wishes sirf aap ke liye thin.';
           wish.classList.add('show');
           final.hidden = false;
           final.style.setProperty('--x', '50%');
@@ -600,6 +637,7 @@ function goTo(id, kind='fade'){
     if(started) return; started = true;
     document.body.classList.add('moonlit');
     $('.dua-moon').classList.add('show');
+    Stickers.rain('dua', 7, 1100);
     setTimeout(() => {
       h.hidden = false;
       setTimeout(() => h.classList.add('show'), 40);
@@ -609,9 +647,10 @@ function goTo(id, kind='fade'){
       setTimeout(() => {
         l.classList.remove('hidden');
         setTimeout(() => l.classList.add('show'), 40);
-      }, T(2000 + i*1150));
+        if(i % 2 === 0) Sound.chime(523.25 + i*30, .06);
+      }, T(2000 + i*1000));
     });
-    setTimeout(() => { cue.hidden = false; cue.classList.add('show'); ready = true; }, T(2000 + lines.length*1150 + 400));
+    setTimeout(() => { cue.hidden = false; cue.classList.add('show'); ready = true; }, T(2000 + lines.length*1000 + 400));
   };
   sc.addEventListener('pointerdown', () => { if(!ready) return; goTo('sc-seed', 'fade'); });
 })();
@@ -645,6 +684,7 @@ function goTo(id, kind='fade'){
     if(started) return; started = true;
     n.textContent = state.name;
     document.body.classList.add('festive');
+    Stickers.rain('party', 16, 300);
     const seq = [
       ['#fName', 600],
       ['#fHB', 2200],

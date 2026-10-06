@@ -315,3 +315,35 @@ body.moonlit{background:#060a16}
 
 /* final show classes */
 .f-name.show-f,.f-hb.show-f,.f-msg.show-f,.f-made.show-f{opacity:1;transform:none;filter:none}
+
+
+/* ===== STICKERS (TikTok/Insta style) ===== */
+#stickers{position:fixed;inset:0;z-index:15;pointer-events:none;overflow:hidden}
+.sticker{
+  position:absolute;left:var(--sx);bottom:-72px;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  background:rgba(255,255,255,.96);border-radius:50%;
+  box-shadow:0 5px 20px rgba(0,0,0,.4),inset 0 -2px 6px rgba(0,0,0,.06);
+  animation:stickerFloat var(--dur) linear forwards;
+  will-change:transform,opacity}
+@keyframes stickerFloat{
+  0%{transform:translateY(0) rotate(var(--rot)) scale(.3);opacity:0}
+  10%{opacity:1;transform:translateY(-7vh) rotate(var(--rot)) scale(var(--sc))}
+  48%{transform:translateY(-48vh) rotate(calc(var(--rot) * -1.4)) scale(var(--sc))}
+  88%{opacity:1}
+  100%{transform:translateY(-108vh) rotate(var(--rot)) scale(var(--sc) * .8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.sticker{animation-duration:2s}}
+
+/* panda peek — suspense scene */
+.panda-peek{position:absolute;bottom:-2%;left:7%;display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;transform:translateY(30px) rotate(-6deg);
+  transition:opacity .8s var(--ease),transform .8s var(--ease);pointer-events:none}
+.panda-peek.show{opacity:1;transform:translateY(-64px) rotate(4deg)}
+.panda-peek.wave{animation:pandaWave 1.5s ease-in-out infinite}
+@keyframes pandaWave{0%,100%{transform:translateY(-64px) rotate(4deg) scale(1)}50%{transform:translateY(-72px) rotate(-4deg) scale(1.06)}}
+.panda-peek__emoji{font-size:54px;filter:drop-shadow(0 8px 22px rgba(0,0,0,.45))}
+.panda-peek__bubble{
+  width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:15px;background:rgba(255,255,255,.95);
+  box-shadow:0 4px 16px rgba(0,0,0,.4);animation:pandaBubble 2s ease-in-out infinite}
+@keyframes pandaBubble{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.18) rotate(4deg)}}
